@@ -1,6 +1,9 @@
 from platformdirs import user_data_dir
 import sqlite3
 import os
+from models.gasto import Gasto
+from models.ingreso import Ingreso 
+from models.tipo_gasto import Tipo_gasto
 
 APP_NAME = "omv"
 DB_NAME = "omv.db"
@@ -35,7 +38,32 @@ def init_db(db):
     else:
         print("La base de datos ya está inicializada.")
 
+# Función para insertar un tipo de gasto en la base de datos
+def add_tipo_gasto(db, tipo_gasto):
+    cursor = db.cursor()
+    query = f'INSERT INTO tipo_gasto (id,nombre,descripcion) VALUES {tipo_gasto};")'
+    cursor.execute(query)
+    db.commit()
+    print(query)
+    print("Tipo de gasto insertado exitosamente.")
+
+# Función para insertar un gasto en la base de datos
+def add_gasto(db, gasto):
+    cursor = db.cursor()
+    query = f'INSERT INTO gasto (id,tipo_gasto_id,fecha,monto,descripcion) VALUES {gasto};")'
+    cursor.execute(query)
+    db.commit()
+    print(query)
+    print("Gasto insertado exitosamente.")
+
+
+def add_ingreso(db, ingreso):
+    cursor = db.cursor()
+    query = f'INSERT INTO ingreso (id,fecha,monto,descripcion) VALUES {ingreso};")'
+    cursor.execute(query)
+    db.commit()
+    print(query)
+    print("Ingreso insertado exitosamente.")
+
 if(__name__ == "__main__"):
     print(os.getcwd())
-    
-    
