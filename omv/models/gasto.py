@@ -7,5 +7,5 @@ class Gasto():
         self.monto = monto
         self.tipo_gasto = tipo_gasto
 
-    def __str__(self):
-        return "Gasto: {0} - {1} - {2}".format(self.fecha, self.monto, self.tipo_gasto)
+    def __repr__(self):
+        return f"({self.id}, {self.fecha}, {self.monto}, {self.tipo_gasto.id})"

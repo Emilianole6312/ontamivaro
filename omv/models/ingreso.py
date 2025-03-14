@@ -1,10 +1,11 @@
 
 
-class ingreso():
-    def __init__(self, fecha, monto, id = None):
+class Ingreso():
+    def __init__(self, fecha, monto, descripcion='', id = None):
         self.id = id
         self.fecha = fecha
         self.monto = monto
+        self.descripcion = descripcion
     
-    def __str__(self):
-        return "Ingreso: {0} - {1}".format(self.fecha, self.monto)
+    def __repr__(self):
+        return f'({self.id}, {self.fecha}, {self.monto}, {self.descripcion})'
