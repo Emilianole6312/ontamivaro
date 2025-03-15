@@ -11,7 +11,7 @@ def agregar_tipo_gasto(args):
     tipo_gasto = Tipo_gasto(args.nombre, args.descripcion)
     
     # inserta el tipo de gasto en la base de datos
-    db.add_tipo_gasto(tipo_gasto)
+    db.add_tipo_gasto(bd, tipo_gasto)
 
 def agregar_gasto(args):
     # obtiene el tipo de gasto por id
@@ -29,10 +29,10 @@ def agregar_gasto(args):
 
 def agregar_ingreso(args):
     # en caso de no incluir fecha, esta se obtiene de la fecha actual
-    fecha = (args.fecha) if datetime(args.fecha) else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-    fecha = int(args.fecha.timestamp())
+    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    fecha = int(fecha.timestamp())
 
     # crea el ingreso
     ingreso = Ingreso(fecha, args.monto)
     # inserta el ingreso en la base de datos
-    db.add_ingreso(ingreso)
+    db.add_ingreso(bd, ingreso)
