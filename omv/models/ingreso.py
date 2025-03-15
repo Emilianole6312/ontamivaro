@@ -12,4 +12,4 @@ class Ingreso():
         return cls(tupla[0], tupla[1], tupla[2], tupla[3])
     
     def __repr__(self):
-        return f'({self.id}, {self.fecha}, {self.monto}, {self.descripcion})'
+        return f'({self.id}, {self.fecha}, {self.monto}, "{self.descripcion}")'

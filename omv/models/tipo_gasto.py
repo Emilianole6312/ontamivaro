@@ -11,6 +11,6 @@ class Tipo_gasto():
         return cls(tupla[0], tupla[1], tupla[2])
 
     def __repr__(self):
-        return f'({self.id}, {self.nombre}, {self.descripcion})'
+        return f'({self.id}, "{self.nombre}", "{self.descripcion}")'
 
     
