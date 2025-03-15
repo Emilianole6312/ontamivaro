@@ -111,16 +111,16 @@ def add_ingreso(db, ingreso):
 # Función para obtener un tipo de gasto por ID
 def get_tipo_gasto_by_id(db, tipo_gasto_id):
     try:
-        with db.cursor() as cursor:
-            query = "SELECT * FROM tipo_gasto WHERE id = ?"
-            cursor.execute(query, (tipo_gasto_id,))
-            tipo_gasto = Tipo_gasto.from_tupla(cursor.fetchone())
-            print(query.replace("?", str(tipo_gasto_id)))
-            if tipo_gasto:
-                print("Tipo de gasto obtenido exitosamente.")
-            else:
-                print("No se encontró el tipo de gasto con ese ID.")
-            return tipo_gasto
+        cursor = db.cursor()
+        query = "SELECT nombre, descripcion, id FROM tipo_gasto WHERE id = ?"
+        cursor.execute(query, (tipo_gasto_id,))
+        tipo_gasto = Tipo_gasto.from_tupla(cursor.fetchone())
+        print(query.replace("?", str(tipo_gasto_id)))
+        if tipo_gasto:
+            print("Tipo de gasto obtenido exitosamente.")
+        else:
+            print("No se encontró el tipo de gasto con ese ID.")
+        return tipo_gasto
     except sqlite3.Error as e:
         print(f"Error al obtener tipo de gasto: {e}")
         return None
@@ -128,19 +128,18 @@ def get_tipo_gasto_by_id(db, tipo_gasto_id):
 # Función para obtener un tipo de gasto por nombre
 def get_tipo_gasto_by_name(db, tipo_gasto_name):
     try:
-        with db.cursor() as cursor:
-            query = "SELECT * FROM tipo_gasto WHERE nombre = ?"
-            cursor.execute(query, (tipo_gasto_name,))
-            tipo_gasto = Tipo_gasto.from_tupla(cursor.fetchone())
-            print(query.replace("?", tipo_gasto_name))
-            if tipo_gasto:
-                print("Tipo de gasto obtenido exitosamente.")
-            else:
-                print("No se encontró el tipo de gasto con ese nombre.")
-            return tipo_gasto
+        cursor = db.cursor()
+        query = "SELECT * FROM tipo_gasto WHERE nombre = ?"
+        cursor.execute(query, (tipo_gasto_name,))
+        tipo_gasto = Tipo_gasto.from_tupla(cursor.fetchone())
+        print(query.replace("?", tipo_gasto_name))
+        if tipo_gasto:
+            print("Tipo de gasto obtenido exitosamente.")
+        else:
+            print("No se encontró el tipo de gasto con ese nombre.")
+        return tipo_gasto
     except sqlite3.Error as e:
         print(f"Error al obtener tipo de gasto: {e}")
 
 if(__name__ == "__main__"):
-    print(os.getcwd())
-    db = get_db_connection(get_db_path())
+    pass
