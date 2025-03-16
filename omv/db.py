@@ -141,5 +141,53 @@ def get_tipo_gasto_by_name(db, tipo_gasto_name):
     except sqlite3.Error as e:
         print(f"Error al obtener tipo de gasto: {e}")
 
+# Función para obtener todos los tipos de gasto
+def get_tipos_gasto(db):
+    try:
+        cursor = db.cursor()
+        query = "SELECT id, nombre, descripcion FROM tipo_gasto;"
+        cursor.execute(query)
+        tipos_gasto = [Tipo_gasto.from_tupla(tupla) for tupla in cursor.fetchall()]
+        print(query)
+        print("Tipos de gasto obtenidos exitosamente.")
+        return tipos_gasto
+    except sqlite3.Error as e:
+        print(f"Error al obtener tipos de gasto: {e}")
+        return None
+
+# funcion para obtener los ultimos 10 gastos
+def get_gastos_dia(db, fecha):
+    try:
+        cursor = db.cursor()
+        query = f"SELECT * FROM gasto WHERE fecha = {fecha};"
+        cursor.execute(query)
+        gastos = [Gasto.from_tupla(tupla) for tupla in cursor.fetchall()]
+        for gasto in gastos:
+            gasto.tipo_gasto = get_tipo_gasto_by_id(db, gasto.tipo_gasto)
+        print(query)
+        print("Gastos obtenidos exitosamente.")
+        return gastos
+    except sqlite3.Error as e:
+        print(f"Error al obtener gastos: {e}")
+        return None
+
+# Función para obtener los ingresos del dia
+def get_ingresos_dia(db, fecha):
+    try:
+        cursor = db.cursor()
+        query = f"SELECT * FROM ingreso WHERE fecha = {fecha};"
+        cursor.execute(query)
+        ingresos = [Ingreso.from_tupla(tupla) for tupla in cursor.fetchall()]
+        print(query)
+        print("Ingresos obtenidos exitosamente.")
+        return ingresos
+    except sqlite3.Error as e:
+        print(f"Error al obtener ingresos: {e}")
+        return None
+
 if(__name__ == "__main__"):
-    pass
+    bd = get_db_connection(get_db_path())
+    print(get_tipos_gasto(bd))
+    print(get_gastos_dia(bd,1))
+    print(get_ingresos_dia(bd,1))
+    pass    
