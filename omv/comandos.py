@@ -47,9 +47,9 @@ def ver_tipo_gasto(args):
 
 def ver_gastos(args):
     # obtiene los gastos
-    # fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-    # fecha = int(fecha.timestamp())
-    fecha = 1742018400
+    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    fecha = int(fecha.timestamp())
+    # fecha = 1742018400
     gastos = db.get_gastos_dia(bd, fecha)
     print("ID Fecha                Monto  Descripción")
     for gasto in gastos:
@@ -58,9 +58,9 @@ def ver_gastos(args):
 
 def ver_ingresos(args):
     # obtiene los ingresos
-    # fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-    # fecha = int(fecha.timestamp())
-    fecha = 1742018400
+    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    fecha = int(fecha.timestamp())
+    # fecha = 1742018400
     ingresos = db.get_ingresos_dia(bd, fecha)
     print("ID Fecha                Monto")
     for ingreso in ingresos:

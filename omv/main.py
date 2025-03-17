@@ -27,6 +27,20 @@ def main():
     parser_agregar_ingreso.add_argument("-f", "--fecha", required=False, help="Fecha del ingreso")
     parser_agregar_ingreso.set_defaults(func=comandos.agregar_ingreso)
     
+    # Subcomando para ver los tipos de gasto
+    parser_ver_tipo_gasto = subparsers.add_parser('ver_tipos_gasto', help='Ver los tipos de gasto')
+    parser_ver_tipo_gasto.set_defaults(func=comandos.ver_tipo_gasto)
+
+    # Subcomando para ver los gastos
+    parser_ver_gastos = subparsers.add_parser('ver_gastos', help='Ver los gastos')
+    parser_ver_gastos.add_argument("-f", "--fecha", required=False, help="Fecha de los gastos") 
+    parser_ver_gastos.set_defaults(func=comandos.ver_gastos)
+
+    # Subcomando para ver los ingresos
+    parser_ver_ingresos = subparsers.add_parser('ver_ingresos', help='Ver los ingresos')
+    parser_ver_ingresos.add_argument("-f", "--fecha", required=False, help="Fecha de los ingresos")
+    parser_ver_ingresos.set_defaults(func=comandos.ver_ingresos)
+
     # Parseo de argumentos
     args = parser.parse_args()
 
