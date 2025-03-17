@@ -145,7 +145,7 @@ def get_tipo_gasto_by_name(db, tipo_gasto_name):
 def get_tipos_gasto(db):
     try:
         cursor = db.cursor()
-        query = "SELECT id, nombre, descripcion FROM tipo_gasto;"
+        query = "SELECT nombre, descripcion, id FROM tipo_gasto;"
         cursor.execute(query)
         tipos_gasto = [Tipo_gasto.from_tupla(tupla) for tupla in cursor.fetchall()]
         print(query)
@@ -155,11 +155,11 @@ def get_tipos_gasto(db):
         print(f"Error al obtener tipos de gasto: {e}")
         return None
 
-# funcion para obtener los ultimos 10 gastos
+# funcion gastos del dia
 def get_gastos_dia(db, fecha):
     try:
         cursor = db.cursor()
-        query = f"SELECT * FROM gasto WHERE fecha = {fecha};"
+        query = f"SELECT fecha, monto, tipo_gasto_id, descripcion, id FROM gasto WHERE fecha = {fecha};"
         cursor.execute(query)
         gastos = [Gasto.from_tupla(tupla) for tupla in cursor.fetchall()]
         for gasto in gastos:
@@ -175,7 +175,7 @@ def get_gastos_dia(db, fecha):
 def get_ingresos_dia(db, fecha):
     try:
         cursor = db.cursor()
-        query = f"SELECT * FROM ingreso WHERE fecha = {fecha};"
+        query = f"SELECT fecha, monto, descripcion, id FROM ingreso WHERE fecha = {fecha};"
         cursor.execute(query)
         ingresos = [Ingreso.from_tupla(tupla) for tupla in cursor.fetchall()]
         print(query)

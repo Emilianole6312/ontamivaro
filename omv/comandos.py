@@ -36,3 +36,39 @@ def agregar_ingreso(args):
     ingreso = Ingreso(fecha, args.monto)
     # inserta el ingreso en la base de datos
     db.add_ingreso(bd, ingreso)
+
+def ver_tipo_gasto(args):
+    # obtiene el tipo de gasto por id
+    tipos_gasto = db.get_tipos_gasto(bd)
+    print("ID Nombre               Descripción")
+    for tipo in tipos_gasto:
+        print(f'{tipo.id:<2} {tipo.nombre:<20} {tipo.descripcion}')
+    pass
+
+def ver_gastos(args):
+    # obtiene los gastos
+    # fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    # fecha = int(fecha.timestamp())
+    fecha = 1742018400
+    gastos = db.get_gastos_dia(bd, fecha)
+    print("ID Fecha                Monto  Descripción")
+    for gasto in gastos:
+        print(f'{gasto.id:<2} {gasto.fecha} {gasto.monto:<6} {gasto.descripcion}')
+    pass
+
+def ver_ingresos(args):
+    # obtiene los ingresos
+    # fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    # fecha = int(fecha.timestamp())
+    fecha = 1742018400
+    ingresos = db.get_ingresos_dia(bd, fecha)
+    print("ID Fecha                Monto")
+    for ingreso in ingresos:
+        print(f'{ingreso.id:<2} {ingreso.fecha} {ingreso.monto}')
+    pass
+
+if (__name__ == '__main__'):
+    ver_tipo_gasto(None)    
+    ver_gastos(None)
+    ver_ingresos(None)
+    pass
