@@ -23,3 +23,9 @@ Procerderemos a la instalacion con:
 pip install .
 ```
 > Usar `pipx install .` en el caso de Arch Linux.
+
+Finalmente inicializar los datos de la aplicacion:
+
+```bash
+omv init
+```

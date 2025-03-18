@@ -10,7 +10,7 @@ from omv.models.tipo_gasto import Tipo_gasto
 
 APP_NAME = "omv"
 DB_NAME = "omv.db"
-SCHEMA_PATH = "../scheme.sql"
+SCHEMA_PATH = "./scheme.sql"
 
 # Función para obtener el path de la base de datos
 def get_db_path():
@@ -40,7 +40,6 @@ def init_db(db):
         print("Base de datos creada o inicializada exitosamente.")
     else:
         print("La base de datos ya está inicializada.")
-
 # Funcion para obtener un id de tipo_gasto no usado
 def get_tipo_gasto_new_id(db):
     try:
@@ -60,7 +59,6 @@ def get_gasto_new_id(db, fecha):
         query = f"SELECT MAX(id) + 1 FROM gasto WHERE fecha = {fecha};"
         cursor.execute(query)
         gasto_id = cursor.fetchone()
-        print(gasto_id)
         return (gasto_id[0]) if gasto_id[0] else 0  # Si no hay registros, retorna 1
     except sqlite3.Error as e:
         print(e)
@@ -84,19 +82,15 @@ def add_tipo_gasto(db, tipo_gasto):
     query = f'INSERT INTO tipo_gasto (id, nombre, descripcion) VALUES {tipo_gasto};'
     cursor.execute(query)
     db.commit()
-    print(query)
     print("Tipo de gasto insertado exitosamente.")
 
 # Función para insertar un gasto en la base de datos
 def add_gasto(db, gasto):
     cursor = db.cursor()
     gasto.id = get_gasto_new_id(db, gasto.fecha)
-    # print(gasto.id)
     query = f'INSERT INTO gasto (fecha, id, monto, descripcion, tipo_gasto_id) VALUES {gasto};'
-    print(query)
     cursor.execute(query)
     db.commit()
-    print(query)
     print("Gasto insertado exitosamente.")
 
 # Función para insertar un ingreso en la base de datos
@@ -115,11 +109,6 @@ def get_tipo_gasto_by_id(db, tipo_gasto_id):
         query = "SELECT nombre, descripcion, id FROM tipo_gasto WHERE id = ?"
         cursor.execute(query, (tipo_gasto_id,))
         tipo_gasto = Tipo_gasto.from_tupla(cursor.fetchone())
-        print(query.replace("?", str(tipo_gasto_id)))
-        if tipo_gasto:
-            print("Tipo de gasto obtenido exitosamente.")
-        else:
-            print("No se encontró el tipo de gasto con ese ID.")
         return tipo_gasto
     except sqlite3.Error as e:
         print(f"Error al obtener tipo de gasto: {e}")
@@ -132,11 +121,6 @@ def get_tipo_gasto_by_name(db, tipo_gasto_name):
         query = "SELECT * FROM tipo_gasto WHERE nombre = ?"
         cursor.execute(query, (tipo_gasto_name,))
         tipo_gasto = Tipo_gasto.from_tupla(cursor.fetchone())
-        print(query.replace("?", tipo_gasto_name))
-        if tipo_gasto:
-            print("Tipo de gasto obtenido exitosamente.")
-        else:
-            print("No se encontró el tipo de gasto con ese nombre.")
         return tipo_gasto
     except sqlite3.Error as e:
         print(f"Error al obtener tipo de gasto: {e}")
@@ -148,7 +132,6 @@ def get_tipos_gasto(db):
         query = "SELECT nombre, descripcion, id FROM tipo_gasto;"
         cursor.execute(query)
         tipos_gasto = [Tipo_gasto.from_tupla(tupla) for tupla in cursor.fetchall()]
-        print(query)
         print("Tipos de gasto obtenidos exitosamente.")
         return tipos_gasto
     except sqlite3.Error as e:
@@ -164,7 +147,6 @@ def get_gastos_dia(db, fecha):
         gastos = [Gasto.from_tupla(tupla) for tupla in cursor.fetchall()]
         for gasto in gastos:
             gasto.tipo_gasto = get_tipo_gasto_by_id(db, gasto.tipo_gasto)
-        print(query)
         print("Gastos obtenidos exitosamente.")
         return gastos
     except sqlite3.Error as e:
@@ -178,7 +160,6 @@ def get_ingresos_dia(db, fecha):
         query = f"SELECT fecha, monto, descripcion, id FROM ingreso WHERE fecha = {fecha};"
         cursor.execute(query)
         ingresos = [Ingreso.from_tupla(tupla) for tupla in cursor.fetchall()]
-        print(query)
         print("Ingresos obtenidos exitosamente.")
         return ingresos
     except sqlite3.Error as e:

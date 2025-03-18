@@ -6,6 +6,10 @@ def main():
     parser = argparse.ArgumentParser(description='Ontamivaro CLI')
     subparsers = parser.add_subparsers(help='Subcomandos disponibles', dest='subcomando')
 
+    # Subcomando para inicializar la base de datos
+    parser_init = subparsers.add_parser('init', help='Inicializar la base de datos')
+    parser_init.set_defaults(func=comandos.inicializar_bd)
+
     # Subcomando para registrar un gasto
     parser_registrar_gasto = subparsers.add_parser('gasto', help='Agregar un gasto')
     parser_registrar_gasto.add_argument("-m", "--monto", required=True, help="Monto del gasto")

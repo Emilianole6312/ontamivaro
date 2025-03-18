@@ -44,3 +44,10 @@ CREATE TABLE ingreso(
 -- Indices para consultas basadas en fechas
 CREATE INDEX idx_gasto_fecha ON gasto(fecha);
 CREATE INDEX idx_ingreso_fecha ON ingreso(fecha);
+
+INSERT INTO tipo_gasto(id, nombre, descripcion) VALUES(1, 'Alquiler', 'Gasto mensual de alquiler');
+INSERT INTO tipo_gasto(id, nombre, descripcion) VALUES(2, 'Comida', 'Gasto en comida');
+INSERT INTO tipo_gasto(id, nombre, descripcion) VALUES(3, 'Transporte', 'Gasto en transporte');
+INSERT INTO tipo_gasto(id, nombre, descripcion) VALUES(4, 'Salud', 'Gasto en salud');
+INSERT INTO tipo_gasto(id, nombre, descripcion) VALUES(5, 'Educacion', 'Gasto en educacion');
+INSERT INTO tipo_gasto(id, nombre, descripcion) VALUES(6, 'Entretenimiento', 'Gasto en entretenimiento');

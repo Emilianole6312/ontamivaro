@@ -6,6 +6,9 @@ from datetime import datetime
 
 bd = db.get_db_connection(db.get_db_path())
 
+def inicializar_bd(args):
+    db.init_db(bd)
+
 def agregar_tipo_gasto(args):
     # crea el tipo de gasto
     tipo_gasto = Tipo_gasto(args.nombre, args.descripcion)
@@ -16,9 +19,15 @@ def agregar_tipo_gasto(args):
 def agregar_gasto(args):
     # obtiene el tipo de gasto por id
     tipo_gasto = db.get_tipo_gasto_by_id(bd, args.tipo)
-
     # en caso de no incluir fecha, esta se obtiene de la fecha actual
-    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    if args.fecha:
+        try:
+            fecha = datetime.strptime(args.fecha, '%Y-%m-%d').replace(hour=0, minute=0, second=0, microsecond=0)
+        except ValueError:
+            print("Formato de fecha incorrecto. Debe ser YYYY-MM-DD")
+            return
+    else:
+        fecha = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     fecha = int(fecha.timestamp())
 
     # crea el gasto
@@ -29,7 +38,14 @@ def agregar_gasto(args):
 
 def agregar_ingreso(args):
     # en caso de no incluir fecha, esta se obtiene de la fecha actual
-    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    if args.fecha:
+        try:
+            fecha = datetime.strptime(args.fecha, '%Y-%m-%d').replace(hour=0, minute=0, second=0, microsecond=0)
+        except ValueError:
+            print("Formato de fecha incorrecto. Debe ser YYYY-MM-DD")
+            return
+    else:
+        fecha = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     fecha = int(fecha.timestamp())
 
     # crea el ingreso
@@ -46,22 +62,42 @@ def ver_tipo_gasto(args):
     pass
 
 def ver_gastos(args):
-    # obtiene los gastos
-    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    # obtiene la fecha en timestamp
+    if args.fecha:
+        try:
+            fecha = datetime.strptime(args.fecha, '%Y-%m-%d').replace(hour=0, minute=0, second=0, microsecond=0)
+        except ValueError:
+            print("Formato de fecha incorrecto. Debe ser YYYY-MM-DD")
+            return
+    else:
+        fecha = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     fecha = int(fecha.timestamp())
-    # fecha = 1742018400
+    
+    # obtiene los gastos y los imprime
     gastos = db.get_gastos_dia(bd, fecha)
-    print("ID Fecha                Monto  Descripción")
+    for gasto in gastos:
+        gasto.fecha = datetime.fromtimestamp(gasto.fecha).strftime('%Y-%m-%d')
+    print("ID Fecha      Monto  Descripción")
     for gasto in gastos:
         print(f'{gasto.id:<2} {gasto.fecha} {gasto.monto:<6} {gasto.descripcion}')
     pass
 
 def ver_ingresos(args):
-    # obtiene los ingresos
-    fecha = (args.fecha) if args.fecha else datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    # obtiene la fecha en timestamp
+    if args.fecha:
+        try:
+            fecha = datetime.strptime(args.fecha, '%Y-%m-%d').replace(hour=0, minute=0, second=0, microsecond=0)
+        except ValueError:
+            print("Formato de fecha incorrecto. Debe ser YYYY-MM-DD")
+            return
+    else:
+        fecha = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     fecha = int(fecha.timestamp())
-    # fecha = 1742018400
+
+    # obtiene los ingresos y los imprime
     ingresos = db.get_ingresos_dia(bd, fecha)
+    for ingreso in ingresos:
+        ingreso.fecha = datetime.fromtimestamp(ingreso.fecha).strftime('%Y-%m-%d')
     print("ID Fecha                Monto")
     for ingreso in ingresos:
         print(f'{ingreso.id:<2} {ingreso.fecha} {ingreso.monto}')
