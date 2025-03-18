@@ -1,12 +1,12 @@
 from platformdirs import user_data_dir
 import sqlite3
 import os
-import models.tipo_gasto as tipo_gasto
-import models.gasto as gasto
-import models.ingreso as ingreso
-from models.gasto import Gasto
-from models.ingreso import Ingreso 
-from models.tipo_gasto import Tipo_gasto
+import omv.models.tipo_gasto as tipo_gasto
+import omv.models.gasto as gasto
+import omv.models.ingreso as ingreso
+from omv.models.gasto import Gasto
+from omv.models.ingreso import Ingreso 
+from omv.models.tipo_gasto import Tipo_gasto
 
 APP_NAME = "omv"
 DB_NAME = "omv.db"

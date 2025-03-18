@@ -1,6 +1,5 @@
 import argparse
-import comandos
-import db
+from omv import comandos
 
 def main():
     # Parser para la función principal de la aplicación
@@ -8,7 +7,7 @@ def main():
     subparsers = parser.add_subparsers(help='Subcomandos disponibles', dest='subcomando')
 
     # Subcomando para registrar un gasto
-    parser_registrar_gasto = subparsers.add_parser('gasto', help='Registrar un gasto')
+    parser_registrar_gasto = subparsers.add_parser('gasto', help='Agregar un gasto')
     parser_registrar_gasto.add_argument("-m", "--monto", required=True, help="Monto del gasto")
     parser_registrar_gasto.add_argument("-d", "--descripcion", required=False, help="Descripción del gasto")
     parser_registrar_gasto.add_argument("-t", "--tipo", required=False, help="ID del tipo de gasto")

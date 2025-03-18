@@ -1,7 +1,7 @@
-import db 
-from models.gasto import Gasto
-from models.ingreso import Ingreso 
-from models.tipo_gasto import Tipo_gasto
+from omv import db
+from omv.models.gasto import Gasto
+from omv.models.ingreso import Ingreso 
+from omv.models.tipo_gasto import Tipo_gasto
 from datetime import datetime
 
 bd = db.get_db_connection(db.get_db_path())
