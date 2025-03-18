@@ -98,10 +98,62 @@ def ver_ingresos(args):
     ingresos = db.get_ingresos_dia(bd, fecha)
     for ingreso in ingresos:
         ingreso.fecha = datetime.fromtimestamp(ingreso.fecha).strftime('%Y-%m-%d')
-    print("ID Fecha                Monto")
+    print("ID Fecha      Monto")
     for ingreso in ingresos:
         print(f'{ingreso.id:<2} {ingreso.fecha} {ingreso.monto}')
     pass
+
+# Elimina un tipo de gasto
+def eliminar_tipo_gasto(args):
+    # obtiene el tipo de gasto por id
+    tipo_gasto = db.get_tipo_gasto_by_id(bd, args.id)
+    if tipo_gasto:
+        db.remove_tipo_gasto(bd, tipo_gasto.id)
+        print("Tipo de gasto eliminado exitosamente.")
+    else:
+        print("No se encontró el tipo de gasto con el ID especificado.")
+
+    # Elimina un gasto
+def eliminar_gasto(args):
+    # obtiene la fecha en timestamp
+    if args.fecha:
+        try:
+            fecha = datetime.strptime(args.fecha, '%Y-%m-%d').replace(hour=0, minute=0, second=0, microsecond=0)
+        except ValueError:
+            print("Formato de fecha incorrecto. Debe ser YYYY-MM-DD")
+            return
+    else:
+        fecha = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    fecha = int(fecha.timestamp())
+
+    # obtiene el gasto por id
+    gasto = db.get_gasto_by_id(bd, args.id, fecha)
+    if gasto:
+        db.remove_gasto(bd, args.id, fecha)
+        print("Gasto eliminado exitosamente.")
+    else:
+        print("No se encontró el gasto con el ID especificado.")
+
+# Elimina un ingreso
+def eliminar_ingreso(args):
+    # obtiene la fecha en timestamp
+    if args.fecha:
+        try:
+            fecha = datetime.strptime(args.fecha, '%Y-%m-%d').replace(hour=0, minute=0, second=0, microsecond=0)
+        except ValueError:
+            print("Formato de fecha incorrecto. Debe ser YYYY-MM-DD")
+            return
+    else:
+        fecha = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    fecha = int(fecha.timestamp())
+
+    # obtiene el ingreso por id
+    ingreso = db.get_ingreso_by_id(bd, args.id, fecha)
+    if ingreso:
+        db.remove_ingreso(bd, args.id, fecha)
+        print("Ingreso eliminado exitosamente.")
+    else:
+        print("No se encontró el ingreso con el ID especificado.")
 
 if (__name__ == '__main__'):
     ver_tipo_gasto(None)    

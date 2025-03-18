@@ -124,6 +124,28 @@ def get_tipo_gasto_by_name(db, tipo_gasto_name):
         return tipo_gasto
     except sqlite3.Error as e:
         print(f"Error al obtener tipo de gasto: {e}")
+    
+# Función para obtener un gasto por ID y fecha
+def get_gasto_by_id(db, gasto_id, fecha):
+    try:
+        cursor = db.cursor()
+        query = "SELECT fecha, monto, tipo_gasto_id, descripcion, id FROM gasto WHERE id = ? AND fecha = ?"
+        cursor.execute(query, (gasto_id, fecha))
+        gasto = Gasto.from_tupla(cursor.fetchone())
+        gasto.tipo_gasto = get_tipo_gasto_by_id(db, gasto.tipo_gasto)
+        return gasto
+    except sqlite3.Error as e:
+        print(f"Error al obtener gasto: {e}")
+
+def get_ingreso_by_id(db, ingreso_id, fecha):
+    try:
+        cursor = db.cursor()
+        query = "SELECT fecha, monto, descripcion, id FROM ingreso WHERE id = ? AND fecha = ?"
+        cursor.execute(query, (ingreso_id, fecha))
+        ingreso = Ingreso.from_tupla(cursor.fetchone())
+        return ingreso
+    except sqlite3.Error as e:
+        print(f"Error al obtener ingreso: {e}")
 
 # Función para obtener todos los tipos de gasto
 def get_tipos_gasto(db):
@@ -165,6 +187,33 @@ def get_ingresos_dia(db, fecha):
     except sqlite3.Error as e:
         print(f"Error al obtener ingresos: {e}")
         return None
+    
+def remove_tipo_gasto(db, tipo_gasto_id):
+    try:
+        cursor = db.cursor()
+        query = "DELETE FROM tipo_gasto WHERE id = ?"
+        cursor.execute(query, (tipo_gasto_id,))
+        db.commit()
+    except sqlite3.Error as e:
+        print(f"Error al eliminar tipo de gasto: {e}")
+
+def remove_gasto(db, gasto_id, fecha):
+    try:
+        cursor = db.cursor()
+        query = "DELETE FROM gasto WHERE id = ? AND fecha = ?"
+        cursor.execute(query, (gasto_id, fecha))
+        db.commit()
+    except sqlite3.Error as e:
+        print(f"Error al eliminar gasto: {e}")
+
+def remove_ingreso(db, ingreso_id, fecha):
+    try:
+        cursor = db.cursor()
+        query = "DELETE FROM ingreso WHERE id = ? AND fecha = ?"
+        cursor.execute(query, (ingreso_id, fecha))
+        db.commit()
+    except sqlite3.Error as e:
+        print(f"Error al eliminar ingreso: {e}")
 
 if(__name__ == "__main__"):
     bd = get_db_connection(get_db_path())
